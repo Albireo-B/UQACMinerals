@@ -5,5 +5,12 @@
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
+    <string name="DescriptionQuartz">Le quartz est une espèce minérale dure et cristalline composée d\’atomes de silicium et d\’oxygène, appartenant au groupe des silicates. C\’est le deuxième minéral le plus abondant de la croûte terrestre, après la famille des feldspaths.
+
+Le quartz est un constituant essentiel du granite et d\’autres roches magmatiques felsiques. Il se trouve également couramment dans les roches sédimentaires telles que le grès et les schistes ainsi que dans le gneiss, le quartzite et diverses roches métamorphiques.</string>
+    <string name="NameQuartz">Le Quartz</string>
+    <string name="ImageQuartz">Image d\'un quartz</string>
+    <string name="ImageUQAC">Logo de l\'UQAC</string>
+
 
 </resources>

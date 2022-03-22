@@ -3,12 +3,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.ScannedMineralList">
+    tools:context=".fragments.Wiki">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Page de la liste des minéraux scannés" />
+        android:orientation="vertical">
+
+        <SearchView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/vert_uqac" />
+
+        <ListView
+            android:id="@+id/listViewMinerals"
+            android:layout_width="match_parent"
+            android:dividerHeight="10dp"
+            android:divider="@color/black"
+            android:layout_height="match_parent">
+        </ListView>
+
+    </LinearLayout>
 
 </FrameLayout>
