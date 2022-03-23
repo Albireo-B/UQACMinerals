@@ -8,10 +8,11 @@
     android:orientation="horizontal">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@drawable/ic_launcher_background" />
+        android:contentDescription="@string/ImageQuartz"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:src="@drawable/quartz_png_11553949529yvckglmqth_removebg_preview"/>
 
     <TextView
         android:id="@+id/listViewItem_mineralName"

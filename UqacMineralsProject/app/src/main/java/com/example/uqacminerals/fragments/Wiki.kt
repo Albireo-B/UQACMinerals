@@ -14,11 +14,11 @@ class Wiki : Fragment() {
 
 
     val minerals = arrayOf(
-        "Mineral 1", "Mineral 2",
-        "Mineral 3", "Mineral 4",
-        "Mineral 5", "Mineral 6",
-        "Mineral 7", "Mineral 8",
-        "Mineral 9"
+        "Almandin", "Amazonite",
+        "Lépidolite", "Chlorite",
+        "Epidote", "Fluorite",
+        "Zircon", "Quartz",
+        "Pyrite"
     )
 
     override fun onCreateView(

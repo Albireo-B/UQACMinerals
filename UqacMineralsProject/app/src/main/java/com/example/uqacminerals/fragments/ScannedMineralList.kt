@@ -12,12 +12,9 @@ import com.example.uqacminerals.R
 
 class ScannedMineralList : Fragment() {
 
-    val minerals = arrayOf(
-        "Mineral 1", "Mineral 2",
-        "Mineral 3", "Mineral 4",
-        "Mineral 5", "Mineral 6",
-        "Mineral 7", "Mineral 8",
-        "Mineral 9"
+    val scannedMinerals = arrayOf(
+        "Almandin", "Amazonite",
+        "Lépidolite"
     )
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,7 +27,7 @@ class ScannedMineralList : Fragment() {
             view.context,
             R.layout.listview_item,
             R.id.listViewItem_mineralName,
-            minerals
+            scannedMinerals
         )
         wikiListView.adapter = arr
 
