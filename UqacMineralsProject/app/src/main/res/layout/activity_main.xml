@@ -1,23 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/QRCode_FrameLayout"
     android:background="@color/background_material_light"
+    tools:context=".ui.main.MainActivity"
     android:orientation="horizontal">
 
-<androidx.viewpager.widget.ViewPager
-    android:id="@+id/App_ViewPager"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    />
+<!--    <androidx.viewpager.widget.ViewPager-->
+<!--        android:id="@+id/App_ViewPager"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        />-->
 
-<Button
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Coucou Nicolas"
-    android:onClick="GoToWiki">
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
-</Button>
+<!--    <fragment-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        class="com.example.uqacminerals.fragments.MineralDetail"-->
+<!--        android:id="@+id/fragmentID" />-->
 
-</LinearLayout>
+</FrameLayout>

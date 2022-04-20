@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".fragments.MineralDetail">
 
-    <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -14,6 +13,8 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/mineralDetail_Nom"
+            android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/NameQuartz"
@@ -25,7 +26,7 @@
             android:textStyle="bold" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/mineralDetail_Image"
             android:layout_width="215dp"
             android:layout_height="185dp"
             android:layout_gravity="center"
@@ -34,10 +35,12 @@
             android:src="@drawable/quartz_png_11553949529yvckglmqth_removebg_preview" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/mineralDetail_Description"
+            android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
+            android:layout_gravity="center"
             android:background="@color/vert_uqac"
             android:text="@string/DescriptionQuartz"
             android:textAlignment="center"
@@ -45,7 +48,6 @@
             android:textSize="16sp" />
 
         <ImageView
-            android:id="@+id/imageView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/uqac_haute_resolution" />
