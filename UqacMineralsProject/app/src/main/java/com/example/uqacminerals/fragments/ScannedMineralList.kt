@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
+import android.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
@@ -24,13 +25,16 @@ class ScannedMineralList : Fragment() {
 
     private val scannedMineralList = ArrayList<MineralModel>()
 
+    private lateinit var mineralAdapter : MineralAdapter
+    private lateinit var wikiListView : ListView
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-
-        val mineralAdapter = MineralAdapter(requireContext(), scannedMineralList)
+        Log.e("TEST","BONSOIR A TOUS")
+        mineralAdapter = MineralAdapter(requireContext(), scannedMineralList)
 
         setFragmentResultListener("Groupe") { Groupe, bundle ->
             val result = bundle.getInt("GroupeKey")
@@ -65,13 +69,49 @@ class ScannedMineralList : Fragment() {
 
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_wiki, container, false)
-        val wikiListView : ListView = view.findViewById(R.id.listViewMinerals)
+        wikiListView = view.findViewById(R.id.listViewMinerals)
 
         wikiListView.adapter = mineralAdapter
 
 
+
+        // Inflate the layout for this fragment
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        Log.e("EEEE",view.toString())
+        //val wikiListView2 : SearchView = requireView().findViewById(R.id.scanned_searchView)
+
+//        val searchView : SearchView = view.findViewById(R.id.scanned_searchView)
+//        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+//            override fun onQueryTextSubmit(query: String): Boolean {
+//                Log.e("SEARCH","search submitted")
+//                val searchMineralList = ArrayList<MineralModel>()
+//                scannedMineralList.forEach{
+//                    if (it.GetNom().equals(query.trim(), true)){
+//                        searchMineralList.add(it)
+//                    }
+//                }
+//                Log.e("SEARCH",searchMineralList.toString())
+//                if (searchMineralList.isNotEmpty()) {
+//                    mineralAdapter.UpdateList(searchMineralList)
+//                }
+//                return false
+//            }
+//
+//            override fun onQueryTextChange(newText: String): Boolean {
+//                if (newText.trim() == ""){
+//                    Log.e("SEARCH","Resetting mineralList search bar empty")
+//                    mineralAdapter.UpdateList(scannedMineralList)
+//                }
+//                return false
+//            }
+//        })
+
         wikiListView.setOnItemClickListener { adapter, v, position, resource ->
-            val itemClicked = adapter.getItemAtPosition(position) as MineralModel
+            val itemClicked = mineralAdapter.getItem(position)
             val gson = Gson()
             setFragmentResult("MineralClicked", bundleOf("MineralKey" to gson.toJson(itemClicked)))
 
@@ -79,9 +119,6 @@ class ScannedMineralList : Fragment() {
             (activity as MainActivity).ChangeFragment("ScannedMineralList","MineralDetail")
 
         }
-
-        // Inflate the layout for this fragment
-        return view
     }
 
 }

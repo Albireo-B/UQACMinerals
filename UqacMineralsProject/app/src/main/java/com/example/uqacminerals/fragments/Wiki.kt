@@ -3,16 +3,17 @@ package com.example.uqacminerals.fragments
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.*
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import android.widget.ArrayAdapter
-import android.widget.LinearLayout
-import android.widget.ListView
-import android.widget.Toast
+import androidx.fragment.app.setFragmentResult
 import com.example.uqacminerals.R
 import com.example.uqacminerals.classes.MineralAdapter
 import com.example.uqacminerals.database.MineralModel
 import com.example.uqacminerals.ui.main.MainActivity
 import com.google.firebase.database.FirebaseDatabase
+import com.google.gson.Gson
+import java.util.function.Consumer
 import kotlin.math.abs
 
 
@@ -24,14 +25,17 @@ class Wiki : Fragment(), GestureDetector.OnGestureListener {
     // Declaring gesture detector
     private lateinit var gestureDetector: GestureDetector
 
+    private lateinit var mineralAdapter : MineralAdapter
+    private lateinit var wikiListView : ListView
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
         val view = inflater.inflate(R.layout.fragment_wiki, container, false)
-        val wikiListView : ListView = view.findViewById(R.id.listViewMinerals)
-        val mineralAdapter = MineralAdapter(requireContext(), mineralList)
+        wikiListView = view.findViewById(R.id.listViewMinerals)
+        mineralAdapter = MineralAdapter(requireContext(), mineralList)
 
         if (mineralList.isEmpty()) {
             database.child("mineral").get().addOnSuccessListener {
@@ -78,6 +82,40 @@ class Wiki : Fragment(), GestureDetector.OnGestureListener {
 
         })
 
+        val searchView : SearchView = requireView().findViewById(R.id.wiki_searchView)
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                Log.e("SEARCH","search submitted")
+                val searchMineralList = ArrayList<MineralModel>()
+                mineralList.forEach{
+                    if (it.GetNom().equals(query.trim(), true)){
+                        searchMineralList.add(it)
+                    }
+                }
+                Log.e("SEARCH",searchMineralList.toString())
+                if (searchMineralList.isNotEmpty()) {
+                    mineralAdapter.UpdateList(searchMineralList)
+                }
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                if (newText.trim() == ""){
+                    Log.e("SEARCH","Resetting mineralList search bar empty")
+                    mineralAdapter.UpdateList(mineralList)
+                }
+                return false
+            }
+        })
+
+        wikiListView.setOnItemClickListener { adapter, v, position, resource ->
+            val itemClicked = mineralAdapter.getItem(position)
+            val gson = Gson()
+            setFragmentResult("MineralClicked", bundleOf("MineralKey" to gson.toJson(itemClicked)))
+
+            (activity as MainActivity).ChangeFragment("Wiki","MineralDetail")
+        }
     }
 
 
