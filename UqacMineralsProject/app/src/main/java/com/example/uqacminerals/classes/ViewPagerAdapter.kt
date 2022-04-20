@@ -19,9 +19,9 @@ class ViewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
     override fun getItem(position: Int): Fragment {
         when (position) {
             0 -> return QRCode()
-            1 -> return MineralDetail()
+            1 -> return Wiki()
             2 -> return ScannedMineralList()
-            3 -> return Wiki()
+            3 -> return MineralDetail()
         }
         return QRCode()
     }

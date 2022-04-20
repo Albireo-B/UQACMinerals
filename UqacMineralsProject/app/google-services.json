@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "627109450923",
+    "firebase_url": "https://uqacminerals-default-rtdb.firebaseio.com",
+    "project_id": "uqacminerals",
+    "storage_bucket": "uqacminerals.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:627109450923:android:1d29eb0d39814b307f53ee",
+        "android_client_info": {
+          "package_name": "com.example.uqacminerals"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "627109450923-jck8caaa3dhjp1pr23cr9vbkg7ulj9rb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqMsnSzMo-N47NWB3EzVRQ3TM66PFM6Oo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "627109450923-jck8caaa3dhjp1pr23cr9vbkg7ulj9rb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

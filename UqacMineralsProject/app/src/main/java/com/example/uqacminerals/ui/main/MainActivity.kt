@@ -9,12 +9,12 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager.widget.ViewPager
 import com.example.uqacminerals.R
 import com.example.uqacminerals.classes.ViewPagerAdapter
+import com.google.firebase.database.FirebaseDatabase
 
 
 class MainActivity : FragmentActivity() {
 
     private lateinit var appViewPager : ViewPager
-    private val PERMISSION_REQUEST_CODE = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA)
@@ -24,13 +24,6 @@ class MainActivity : FragmentActivity() {
             ActivityCompat.requestPermissions(this,
                 arrayOf(Manifest.permission.CAMERA),
                 123);
-
-            /*ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.CAMERA},
-                    PERMISSION_REQUEST_CODE);*/
-        }
-        else {
-
         }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -38,6 +31,7 @@ class MainActivity : FragmentActivity() {
         appViewPager = findViewById(R.id.App_ViewPager)
 
         appViewPager.adapter = ViewPagerAdapter(supportFragmentManager)
+
     }
 
 
