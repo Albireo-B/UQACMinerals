@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ListView
 import android.widget.SearchView
 import androidx.core.os.bundleOf
+import androidx.core.view.allViews
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
@@ -33,7 +34,9 @@ class ScannedMineralList : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        Log.e("TEST","BONSOIR A TOUS")
+        // Inflate the layout for this fragment
+        val view = inflater.inflate(R.layout.fragment_wiki, container, false)
+
         mineralAdapter = MineralAdapter(requireContext(), scannedMineralList)
 
         setFragmentResultListener("Groupe") { Groupe, bundle ->
@@ -67,8 +70,7 @@ class ScannedMineralList : Fragment() {
 
 
 
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_wiki, container, false)
+
         wikiListView = view.findViewById(R.id.listViewMinerals)
 
         wikiListView.adapter = mineralAdapter
@@ -82,33 +84,36 @@ class ScannedMineralList : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         Log.e("EEEE",view.toString())
-        //val wikiListView2 : SearchView = requireView().findViewById(R.id.scanned_searchView)
+        view.allViews.forEach {
 
-//        val searchView : SearchView = view.findViewById(R.id.scanned_searchView)
-//        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-//            override fun onQueryTextSubmit(query: String): Boolean {
-//                Log.e("SEARCH","search submitted")
-//                val searchMineralList = ArrayList<MineralModel>()
-//                scannedMineralList.forEach{
-//                    if (it.GetNom().equals(query.trim(), true)){
-//                        searchMineralList.add(it)
-//                    }
-//                }
-//                Log.e("SEARCH",searchMineralList.toString())
-//                if (searchMineralList.isNotEmpty()) {
-//                    mineralAdapter.UpdateList(searchMineralList)
-//                }
-//                return false
-//            }
-//
-//            override fun onQueryTextChange(newText: String): Boolean {
-//                if (newText.trim() == ""){
-//                    Log.e("SEARCH","Resetting mineralList search bar empty")
-//                    mineralAdapter.UpdateList(scannedMineralList)
-//                }
-//                return false
-//            }
-//        })
+            Log.e("EEEE",view.allViews.toString())
+        }
+
+        val searchView : SearchView = view.findViewById(R.id.wiki_searchView)
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                Log.e("SEARCH","search submitted")
+                val searchMineralList = ArrayList<MineralModel>()
+                scannedMineralList.forEach{
+                    if (it.GetNom().equals(query.trim(), true)){
+                        searchMineralList.add(it)
+                    }
+                }
+                Log.e("SEARCH",searchMineralList.toString())
+                if (searchMineralList.isNotEmpty()) {
+                    mineralAdapter.UpdateList(searchMineralList)
+                }
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                if (newText.trim() == ""){
+                    Log.e("SEARCH","Resetting mineralList search bar empty")
+                    mineralAdapter.UpdateList(scannedMineralList)
+                }
+                return false
+            }
+        })
 
         wikiListView.setOnItemClickListener { adapter, v, position, resource ->
             val itemClicked = mineralAdapter.getItem(position)
@@ -119,6 +124,10 @@ class ScannedMineralList : Fragment() {
             (activity as MainActivity).ChangeFragment("ScannedMineralList","MineralDetail")
 
         }
+
     }
+
+
+
 
 }

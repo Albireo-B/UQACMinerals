@@ -1,23 +1,19 @@
 package com.example.uqacminerals.ui.main
 
 import android.Manifest
+import android.app.Application
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
-import android.view.GestureDetector
-import android.view.MotionEvent
-import android.view.View
-import android.widget.Toast
+import android.view.KeyEvent
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import com.example.uqacminerals.R
 import com.example.uqacminerals.fragments.MineralDetail
 import com.example.uqacminerals.fragments.QRCode
 import com.example.uqacminerals.fragments.ScannedMineralList
 import com.example.uqacminerals.fragments.Wiki
-import kotlin.math.abs
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 
 
@@ -25,8 +21,10 @@ class MainActivity : FragmentActivity() {
 
     private val mineralDetail = MineralDetail()
     private val scannedMineralList = ScannedMineralList()
-    private val QRCode = QRCode()
+    private var QRCode = QRCode()
     private val wiki = Wiki()
+    private lateinit var currentFragment : Fragment
+    private lateinit var OldFragment : Fragment
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,6 +50,7 @@ class MainActivity : FragmentActivity() {
 
 
     private fun initFragments() {
+        currentFragment = QRCode
         supportFragmentManager.beginTransaction()
             .setReorderingAllowed(true)
             .add(R.id.fragment_container_view, QRCode)
@@ -65,7 +64,7 @@ class MainActivity : FragmentActivity() {
             .commit()
     }
 
-    fun GetFragmentFromName(name : String) : Fragment{
+    fun GetFragmentFromName(name : String) : Fragment {
         return when (name) {
             "QRCode" -> QRCode
             "ScannedMineralList" -> scannedMineralList
@@ -78,13 +77,22 @@ class MainActivity : FragmentActivity() {
     }
 
     fun ChangeFragment(oldFragment : String, newFragment : String){
-        Log.e("FRAGMENT","Changement de fragment")
-        if (newFragment == "Wiki" || newFragment == "QRCode") {
-            Log.e("FRAGMENT","Nouveau fragment wiki")
+        currentFragment = GetFragmentFromName(newFragment)
+        OldFragment = GetFragmentFromName(oldFragment)
+        Log.e("FRAGMENT",newFragment)
+        if (newFragment == "Wiki") {
             supportFragmentManager.beginTransaction()
+                .setReorderingAllowed(true)
                 .show(GetFragmentFromName(newFragment))
                 .hide(GetFragmentFromName(oldFragment))
                 .commit()
+        } else if ( newFragment == "QRCode" && oldFragment == "ScannedMineralList"){
+            supportFragmentManager.beginTransaction()
+                .setReorderingAllowed(true)
+                .show(GetFragmentFromName(newFragment))
+                .hide(GetFragmentFromName(oldFragment))
+                .commit()
+
         } else {
             supportFragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
@@ -93,6 +101,28 @@ class MainActivity : FragmentActivity() {
                 .hide(GetFragmentFromName(oldFragment))
                 .commit()
         }
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (currentFragment == GetFragmentFromName("ScannedMineralList")){
+                    ChangeFragment("ScannedMineralList", "QRCode")
+                    supportFragmentManager.beginTransaction().detach(currentFragment).commitNow()
+                    supportFragmentManager.beginTransaction().attach(currentFragment).commitNow();
+                    return true;
+                }
+            else if (currentFragment == GetFragmentFromName("MineralDetail") && OldFragment == GetFragmentFromName("Wiki")){
+                ChangeFragment("MineralDetail", "Wiki")
+                return true;
+            }
+            else if (currentFragment == GetFragmentFromName("MineralDetail") && OldFragment == GetFragmentFromName("ScannedMineralList")) {
+                ChangeFragment("MineralDetail", "ScannedMineralList")
+                return true;
+            } else if (currentFragment == GetFragmentFromName("Wiki") || currentFragment == GetFragmentFromName("QRCode")){
+                finishAffinity()
+            }
+        }
+        return super.onKeyDown(keyCode, event)
     }
 
 
