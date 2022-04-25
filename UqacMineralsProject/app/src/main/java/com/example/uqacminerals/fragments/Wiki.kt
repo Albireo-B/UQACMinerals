@@ -1,5 +1,6 @@
 package com.example.uqacminerals.fragments
 
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -11,10 +12,16 @@ import com.example.uqacminerals.R
 import com.example.uqacminerals.classes.MineralAdapter
 import com.example.uqacminerals.database.MineralModel
 import com.example.uqacminerals.ui.main.MainActivity
+import com.google.android.gms.tasks.Task
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.ktx.storage
 import com.google.gson.Gson
 import java.util.function.Consumer
 import kotlin.math.abs
+import com.google.firebase.storage.ListResult as FirebaseStorageListResult
 
 
 class Wiki : Fragment(), GestureDetector.OnGestureListener {
@@ -39,16 +46,42 @@ class Wiki : Fragment(), GestureDetector.OnGestureListener {
 
         if (mineralList.isEmpty()) {
             database.child("mineral").get().addOnSuccessListener {
+
+
+                val firebaseMineralStorage: StorageReference = FirebaseStorage.getInstance().reference.child("mineral-image-firebase")
+
                 for (item in it.children){
-                    val mineralModel = MineralModel(item.child("nom").value.toString(),item.child("description").value.toString(),item.child("image").value.toString(),Integer.parseInt(item.child("groupe").value.toString()))
-                    if (!mineralList.contains(mineralModel))
-                        mineralList.add(mineralModel)
-                    Log.i("firebase", "Objet : ${mineralModel.GetNom()},${mineralModel.GetDescription()},${mineralModel.GetImage()},${mineralModel.GetGroupe()}")
+
+                    firebaseMineralStorage
+                        .child(item.child("nom").value.toString() + ".png")
+                        .downloadUrl.addOnSuccessListener {
+
+                            val mineralModel = MineralModel(item.child("nom").value.toString(),item.child("description").value.toString(),it.toString(),Integer.parseInt(item.child("groupe").value.toString()))
+                            if (!mineralList.contains(mineralModel))
+                                mineralList.add(mineralModel)
+
+                            Log.i("firebase", "Objet : ${mineralModel.GetNom()},${mineralModel.GetDescription()},${mineralModel.GetImage()},${mineralModel.GetGroupe()}")
+                        }
+
+
+
                 }
 
                 mineralAdapter.UpdateList(mineralList)
 
 
+
+
+                    /* for (item in imagesListResult.items) {
+
+                    //val uri : Task<Uri> = item.downloadUrl
+                    //val downloadUri : Uri = uri.result
+                        /*.apply {
+                        Log.e("IMAGES", this.toString())
+                    }*/
+                    //String url = await firebaseImagesList.items[i].getDownloadURL()
+                    //imagesList[firebaseImagesList.items[i].name.split(".")[0]] = url
+                }*/
 
             }.addOnFailureListener{
                 Log.e("firebase", "Error getting data", it)

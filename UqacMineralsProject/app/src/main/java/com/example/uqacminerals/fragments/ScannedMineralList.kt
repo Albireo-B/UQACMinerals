@@ -83,12 +83,6 @@ class ScannedMineralList : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        Log.e("EEEE",view.toString())
-        view.allViews.forEach {
-
-            Log.e("EEEE",view.allViews.toString())
-        }
-
         val searchView : SearchView = view.findViewById(R.id.wiki_searchView)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
