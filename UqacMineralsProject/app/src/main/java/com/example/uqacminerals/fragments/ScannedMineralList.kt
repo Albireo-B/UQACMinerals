@@ -17,6 +17,8 @@ import com.example.uqacminerals.classes.MineralAdapter
 import com.example.uqacminerals.database.MineralModel
 import com.example.uqacminerals.ui.main.MainActivity
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.google.gson.Gson
 
 
@@ -41,31 +43,44 @@ class ScannedMineralList : Fragment() {
 
         setFragmentResultListener("Groupe") { Groupe, bundle ->
             val result = bundle.getInt("GroupeKey")
-            //check if result is double/string/any for the "equalto" ?
-            if (scannedMineralList.isEmpty()) {
-                database.child("mineral").orderByChild("groupe").equalTo(result.toDouble()).get()
-                    .addOnSuccessListener {
-                        for (item in it.children) {
-                            val mineralModel = MineralModel(
-                                item.child("nom").value.toString(),
-                                item.child("description").value.toString(),
-                                item.child("image").value.toString(),
-                                Integer.parseInt(item.child("groupe").value.toString())
-                            )
-                            if (!scannedMineralList.contains(mineralModel))
-                                scannedMineralList.add(mineralModel)
-                            Log.i(
-                                "firebase",
-                                "Objet : ${mineralModel.GetNom()},${mineralModel.GetDescription()},${mineralModel.GetImage()},${mineralModel.GetGroupe()}"
-                            )
-                        }
 
-                        mineralAdapter.UpdateList(scannedMineralList)
 
-                    }.addOnFailureListener {
-                    Log.e("firebase", "Error getting data", it)
-                }
+            database.child("mineral").orderByChild("groupe").equalTo(result.toDouble()).get()
+                .addOnSuccessListener {
+                    val firebaseMineralStorage: StorageReference = FirebaseStorage.getInstance().reference.child("mineral-image-firebase")
+
+                    scannedMineralList.clear()
+                    mineralAdapter.UpdateList(scannedMineralList)
+
+                    for (item in it.children) {
+
+                        firebaseMineralStorage
+                            .child(item.child("nom").value.toString() + ".png")
+                            .downloadUrl.addOnSuccessListener {
+
+                                val mineralModel = MineralModel(
+                                    item.child("nom").value.toString(),
+                                    item.child("description").value.toString(),
+                                    it.toString(),
+                                    Integer.parseInt(item.child("groupe").value.toString())
+                                )
+
+
+                                if (!scannedMineralList.contains(mineralModel))
+                                    scannedMineralList.add(mineralModel)
+
+                                Log.e(
+                                    "firebase",
+                                    "Objet : ${mineralModel.GetNom()},${mineralModel.GetDescription()},${mineralModel.GetImage()},${mineralModel.GetGroupe()}"
+                                )
+                                mineralAdapter.UpdateList(scannedMineralList)
+                            }
+                    }
+
+                }.addOnFailureListener {
+                Log.e("firebase", "Error getting data", it)
             }
+
         }
 
 

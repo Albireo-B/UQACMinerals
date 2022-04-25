@@ -40,12 +40,11 @@
                 activity.runOnUiThread {
                     if(it.text.contains("uqacminerals.", ignoreCase = true)) {
                             val link = it.text;
-                            val listLink = link.split(".");
+                            val listLink = link.split(".")
 
                             Toast.makeText(activity, it.text, Toast.LENGTH_LONG).show()
-                            // passer le bon fragmentresult correspondant au piédestal
-                            //https://developer.android.com/guide/fragments/communicate
-                            setFragmentResult("Groupe", bundleOf("GroupeKey" to listLink[1]))
+
+                            setFragmentResult("Groupe", bundleOf("GroupeKey" to Integer.parseInt((listLink[1]))))
 
                             (getActivity() as MainActivity).ChangeFragment(
                                 "QRCode",

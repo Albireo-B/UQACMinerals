@@ -69,20 +69,6 @@ class Wiki : Fragment(), GestureDetector.OnGestureListener {
 
                 mineralAdapter.UpdateList(mineralList)
 
-
-
-
-                    /* for (item in imagesListResult.items) {
-
-                    //val uri : Task<Uri> = item.downloadUrl
-                    //val downloadUri : Uri = uri.result
-                        /*.apply {
-                        Log.e("IMAGES", this.toString())
-                    }*/
-                    //String url = await firebaseImagesList.items[i].getDownloadURL()
-                    //imagesList[firebaseImagesList.items[i].name.split(".")[0]] = url
-                }*/
-
             }.addOnFailureListener{
                 Log.e("firebase", "Error getting data", it)
             }
