@@ -38,13 +38,20 @@
             codeScanner = CodeScanner(activity, scannerView)
             codeScanner.decodeCallback = DecodeCallback {
                 activity.runOnUiThread {
-                    Toast.makeText(activity, it.text, Toast.LENGTH_LONG).show()
-                    // passer le bon fragmentresult correspondant au piédestal
-                    //https://developer.android.com/guide/fragments/communicate
-                    setFragmentResult("Groupe", bundleOf("GroupeKey" to 1))
+                    if(it.text.contains("uqacminerals.", ignoreCase = true)) {
+                            val link = it.text;
+                            val listLink = link.split(".");
 
-                    (getActivity() as MainActivity).ChangeFragment("QRCode","ScannedMineralList")
+                            Toast.makeText(activity, it.text, Toast.LENGTH_LONG).show()
+                            // passer le bon fragmentresult correspondant au piédestal
+                            //https://developer.android.com/guide/fragments/communicate
+                            setFragmentResult("Groupe", bundleOf("GroupeKey" to listLink[1]))
 
+                            (getActivity() as MainActivity).ChangeFragment(
+                                "QRCode",
+                                "ScannedMineralList"
+                            )
+                        }
                 }
             }
             scannerView.setOnClickListener {
