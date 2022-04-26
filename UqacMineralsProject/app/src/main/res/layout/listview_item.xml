@@ -11,6 +11,9 @@
         android:id="@+id/listViewItem_mineralImage"
         android:layout_gravity="center"
         android:contentDescription="@string/ImageQuartz"
+        android:maxHeight="100dp"
+        android:maxWidth="150dp"
+        android:scaleType="centerInside"
         android:layout_width="150dp"
         android:layout_height="100dp"
         android:src="@drawable/quartz_png_11553949529yvckglmqth_removebg_preview"/>
